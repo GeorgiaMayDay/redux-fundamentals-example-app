@@ -1,7 +1,7 @@
 const initialState = [
-    { id: 0, test: "Learn React", completed: true },
-    { id: 1, test: "Learn Redux", completed: false, colour: 'purple' },
-    { id: 2, test: "Build something fun!", completed: false, colour: 'blue' }
+    // { id: 0, test: "Learn React", completed: true },
+    // { id: 1, test: "Learn Redux", completed: false, colour: 'purple' },
+    // { id: 2, test: "Build something fun!", completed: false, colour: 'blue' }
 ]
 
 function updateCurrentId(todos) {
@@ -16,7 +16,7 @@ export default function todosReducer(state = initialState, action) {
                 //Create copy of the state that can be changed
                 ...state,
                 {
-                    id: nextTodoId(state.todos),
+                    id: updateCurrentId(state),
                     text: action.payload,
                     completed: false
                 }
@@ -25,8 +25,8 @@ export default function todosReducer(state = initialState, action) {
         case 'todos/todoToggled': {
             //iterate through the todos and edit the one with
             //matching id
-            return state.todos.maps(todo =>{
-                        if (todo.id == action.payload){
+            return state.map(todo =>{
+                        if (todo.id !== action.payload){
                             ///... not needed as there is no edit
                             return todo
                         } 
@@ -39,23 +39,45 @@ export default function todosReducer(state = initialState, action) {
                     })
                 }
         case 'todos/colourSelected': {
-            let {colour, changeType } = action.payload
-            const { colours } = state
+            let {todoId, colour } = action.payload
             //iterate through the todos and edit the one with
             //matching id
-            return state.todos.maps(todo =>{
-                        if (todo.id == action.payload){
+            return state.map(todo =>{
+                        if (todo.id !== todoId){
                             ///... not needed as there is no edit
                             return todo
                         } 
                         return {
                             // We've found the todo that has to change. Return a copy:
                             ...todo,
-                            // But we change one thing
-                            completed: !todo.completed
+                            // This updates colours - 
+                            //not sure how will have to see implementation
+                            colour: colour,
                         }
                     })
                 }
+        case 'todos/todoDeleted':{
+            return state.map(todo =>{
+                if (todo.id !== action.payload){
+                    ///... not needed as there is no edit
+                    return todo
+                } 
+            })
+        }
+        case 'todos/allCompleted':{
+            return {
+
+                ...state,
+                completed: true,
+            }
+        }
+        case 'todos/completedCleared':{
+            return state.maps(todo =>{
+                if (todo.completed !== true){
+                    return todo
+                } 
+            })
+        }
         default:
             return state
     }

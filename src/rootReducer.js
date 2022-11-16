@@ -4,8 +4,8 @@
 // and calculating what the entire new state result should be
 
 import { combineReducers } from 'redux'
-import todosReducer from './features/todos/todosSlice'
-import filtersReducer from './features/filters/filtersSlice'
+import todosReducer from './features/todosReducer'
+import filtersReducer from './features/filtersReducer'
 
 const rootReducer = combineReducers({
     // Define a top-level state field named `todos`, handled by `todosReducer`
