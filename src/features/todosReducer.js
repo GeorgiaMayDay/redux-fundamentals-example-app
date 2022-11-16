@@ -39,7 +39,7 @@ export default function todosReducer(state = initialState, action) {
                     })
                 }
         case 'todos/colourSelected': {
-            let {todoId, colour } = action.payload
+            let { todoId, colour } = action.payload
             //iterate through the todos and edit the one with
             //matching id
             return state.map(todo =>{
@@ -50,9 +50,10 @@ export default function todosReducer(state = initialState, action) {
                         return {
                             // We've found the todo that has to change. Return a copy:
                             ...todo,
+                            colour,
                             // This updates colours - 
                             //not sure how will have to see implementation
-                            colour: colour,
+        
                         }
                     })
                 }
@@ -66,7 +67,6 @@ export default function todosReducer(state = initialState, action) {
         }
         case 'todos/allCompleted':{
             return {
-
                 ...state,
                 completed: true,
             }
