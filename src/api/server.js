@@ -95,7 +95,7 @@ new Server({
       completed() {
         return false
       },
-      color() {
+      colour() {
         return ''
       },
     }),

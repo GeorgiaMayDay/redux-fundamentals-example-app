@@ -18,7 +18,7 @@ export default function todosReducer(state = initialState, action) {
                     status: action.payload
                 }
         }
-        case 'filters/colorFilterChanged':{
+        case 'filters/ColourFilterChanged':{
             let {colour, changeType } = action.payload
             const { colours } = state
 

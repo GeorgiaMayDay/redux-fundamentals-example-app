@@ -2,20 +2,20 @@ import React from 'react'
 
 import { ReactComponent as TimesSolid } from './times-solid.svg'
 
-import { availableColors, capitalize } from '../../features/colours'
+import { availablecolours, capitalize } from '../../features/colours'
 
-const TodoListItem = ({ todo, onColorChange, onCompletedChange, onDelete }) => {
-  const { text, completed, color } = todo
+const TodoListItem = ({ todo, oncolourChange, onCompletedChange, onDelete }) => {
+  const { text, completed, colour } = todo
 
   const handleCompletedChanged = (e) => {
     onCompletedChange(e.target.checked)
   }
 
-  const handleColorChanged = (e) => {
-    onColorChange(e.target.value)
+  const handlecolourChanged = (e) => {
+    oncolourChange(e.target.value)
   }
 
-  const colorOptions = availableColors.map((c) => (
+  const colourOptions = availablecolours.map((c) => (
     <option key={c} value={c}>
       {capitalize(c)}
     </option>
@@ -35,13 +35,13 @@ const TodoListItem = ({ todo, onColorChange, onCompletedChange, onDelete }) => {
         </div>
         <div className="segment buttons">
           <select
-            className="colorPicker"
-            value={color}
-            style={{ color }}
-            onChange={handleColorChanged}
+            className="colourPicker"
+            value={colour}
+            style={{ colour }}
+            onChange={handlecolourChanged}
           >
             <option value=""></option>
-            {colorOptions}
+            {colourOptions}
           </select>
           <button className="destroy" onClick={onDelete}>
             <TimesSolid />

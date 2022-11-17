@@ -1,11 +1,11 @@
 import React from 'react'
+import {useSelector } from 'react-redux'
 
-import { availableColors, capitalize } from '../features/colours'
+import { availablecolours, capitalize } from '../features/colours'
 import { StatusFilters } from '../features/filtersReducer'
 
 const RemainingTodos = ({ count }) => {
   const suffix = count === 1 ? '' : 's'
-
   return (
     <div className="todo-count">
       <h5>Remaining Todos</h5>
@@ -13,6 +13,8 @@ const RemainingTodos = ({ count }) => {
     </div>
   )
 }
+
+
 
 const StatusFilter = ({ value: status, onChange }) => {
   const renderedFilters = Object.keys(StatusFilters).map((key) => {
@@ -37,48 +39,68 @@ const StatusFilter = ({ value: status, onChange }) => {
   )
 }
 
-const ColorFilters = ({ value: colors, onChange }) => {
-  const renderedColors = availableColors.map((color) => {
-    const checked = colors.includes(color)
+const ColourFilters = ({ value: colours, onChange }) => {
+  const renderedcolours = availablecolours.map((colour) => {
+    const checked = colours.includes(colour)
     const handleChange = () => {
       const changeType = checked ? 'removed' : 'added'
-      onChange(color, changeType)
+      onChange(colour, changeType)
     }
 
     return (
-      <label key={color}>
+      <label key={colour}>
         <input
           type="checkbox"
-          name={color}
+          name={colour}
           checked={checked}
           onChange={handleChange}
         />
         <span
-          className="color-block"
+          className="colour-block"
           style={{
-            backgroundColor: color,
+            backgroundcolour: colour,
           }}
         ></span>
-        {capitalize(color)}
+        {capitalize(colour)}
       </label>
     )
   })
 
   return (
-    <div className="filters colorFilters">
-      <h5>Filter by Color</h5>
-      <form className="colorSelection">{renderedColors}</form>
+    <div className="filters ColourFilters">
+      <h5>Filter by colour</h5>
+      <form className="colourSelection">{renderedcolours}</form>
+    </div>
+  )
+}
+
+function selectTotalCompletedTodos (state) {
+  const completedTodos = state.todos.filter(todo => todo.completed)
+  return completedTodos.length
+}
+
+const CompletedTodos = ( {count} ) => {
+  const suffix = count === 1 ? '' : 's'
+
+  return (
+    <div className="todo-count">
+      <h5>Completed Todos</h5>
+      <strong>{count}</strong> item{suffix} done
     </div>
   )
 }
 
 const Footer = () => {
-  const colors = []
-  const status = StatusFilters.All
-  const todosRemaining = 1
+  const todosRemaining = useSelector(state =>{
+    const uncompletedTodos = state.todos.filter(todo => !todo.completed)
+    return uncompletedTodos.length
+  })
 
-  const onColorChange = (color, changeType) =>
-    console.log('Color change: ', { color, changeType })
+  const numofcompleted = useSelector(selectTotalCompletedTodos)
+  const { status, colours} = useSelector(state => state.filters)
+
+  const oncolourChange = (colour, changeType) =>
+    console.log('Colour change: ', { colour, changeType })
   const onStatusChange = (status) => console.log('Status change: ', status)
 
   return (
@@ -90,8 +112,9 @@ const Footer = () => {
       </div>
 
       <RemainingTodos count={todosRemaining} />
-     <StatusFilter value={status} onChange={onStatusChange} />
-      <ColorFilters value={colors} onChange={onColorChange} />
+      <CompletedTodos count={numofcompleted} />
+      <StatusFilter value={status} onChange={onStatusChange} />
+      <ColourFilters value={colours} onChange={oncolourChange} />
     </footer>
   )
 }

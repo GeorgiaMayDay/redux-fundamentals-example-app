@@ -17,11 +17,11 @@ test('Change colour filter', () => {
     colours: []
 }
 
-  const addedAction = { type: 'filters/colorFilterChanged', payload:  {colour: 'red', changeType: 'added' } }
+  const addedAction = { type: 'filters/ColourFilterChanged', payload:  {colour: 'red', changeType: 'added' } }
   const addedResult = filtersReducer(initialState, addedAction)
   expect(addedResult.colours).toContain('red');
 
-  const removedAction = { type: 'filters/colorFilterChanged', payload:  {colour: 'red', changeType: 'remove' } }
+  const removedAction = { type: 'filters/ColourFilterChanged', payload:  {colour: 'red', changeType: 'remove' } }
   const removedResult = filtersReducer(initialState, removedAction)
   expect(removedResult.colours).not.toContain('red');
 })
