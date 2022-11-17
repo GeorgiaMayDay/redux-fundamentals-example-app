@@ -1,3 +1,9 @@
+export const StatusFilters = {
+    All: 'all',
+    Active: 'active',
+    Completed: 'completed',
+  }
+
 //This is a slice - a mini reducer
 const initialState = {
     status: 'All',

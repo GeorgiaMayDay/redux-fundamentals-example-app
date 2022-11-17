@@ -8,7 +8,7 @@ function TodoList(){
 
     const todos = useSelector(selectTodos)
 
-    const renderList = todos.map()(todo => {
+    const renderList = todos.map(todo => {
         return <TodoItem key={todo.id} todo={todo} />
       })
 
@@ -20,7 +20,6 @@ function TodoList(){
             <div className='todoapp'>
                 <ul className='todo-list'>
                     {renderList}
-
                 </ul>
 
             </div>

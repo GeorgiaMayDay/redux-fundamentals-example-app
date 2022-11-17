@@ -1,24 +1,55 @@
 import React from 'react'
 
-function TodoItem(todo){
-    return(
-            <li>
-                <div className='view'>
-                    <input
-                        className="toggle"
-                        type="checkbox"
-                        />
-                    <div className="todo-text">
-                        Learn React
-                    </div>
-                    <div>
-                        <select
-                        className='colourPicker'>
-                            <option value="Purple">Purple</option>
-                            <option value="Urple">Urple</option>
-                        </select>
-                    </div>
-                </div>
-            </li>)
+import { ReactComponent as TimesSolid } from './times-solid.svg'
+
+import { availableColors, capitalize } from '../../features/colours'
+
+const TodoListItem = ({ todo, onColorChange, onCompletedChange, onDelete }) => {
+  const { text, completed, color } = todo
+
+  const handleCompletedChanged = (e) => {
+    onCompletedChange(e.target.checked)
+  }
+
+  const handleColorChanged = (e) => {
+    onColorChange(e.target.value)
+  }
+
+  const colorOptions = availableColors.map((c) => (
+    <option key={c} value={c}>
+      {capitalize(c)}
+    </option>
+  ))
+
+  return (
+    <li>
+      <div className="view">
+        <div className="segment label">
+          <input
+            className="toggle"
+            type="checkbox"
+            checked={completed}
+            onChange={handleCompletedChanged}
+          />
+          <div className="todo-text">{text}</div>
+        </div>
+        <div className="segment buttons">
+          <select
+            className="colorPicker"
+            value={color}
+            style={{ color }}
+            onChange={handleColorChanged}
+          >
+            <option value=""></option>
+            {colorOptions}
+          </select>
+          <button className="destroy" onClick={onDelete}>
+            <TimesSolid />
+          </button>
+        </div>
+      </div>
+    </li>
+  )
 }
-export default TodoItem;
+
+export default TodoListItem
