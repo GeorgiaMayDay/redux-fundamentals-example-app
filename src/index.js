@@ -18,20 +18,6 @@ const unsubscribe = store.subscribe(() =>
 //Now lets dispatch/do some actions
 
 store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about actions'})
-store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about reducers'})
-store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about stores'})
-
-store.dispatch({ type: 'todos/todoToggled', payload: 0})
-store.dispatch({ type: 'todos/todoToggled', payload: 1 })
-
-store.dispatch({ type: 'todos/colourSelected', payload: {todoId: 0, color: 'blue' } })
-
-store.dispatch({ type: 'filters/statusFilterChanged', payload: 'Active' })
-
-store.dispatch({
-  type: 'filters/colorFilterChanged',
-  payload: { colour: 'red', changeType: 'added' }
-})
 
 // Stop listening to state updates
 unsubscribe()
