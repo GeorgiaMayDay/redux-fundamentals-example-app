@@ -25,8 +25,21 @@ test('Colour gets added to ids', () => {
                         { id: 1, text: 'Test text', completed: false },
                         ]
   
-    const action = { type: 'todos/colourSelected', payload: {todoId: 0, color: 'blue' }}
+    const action = { type: 'todos/colourSelected', payload: {todoId: 0, colour: 'blue' }}
     const result = todosReducer(initialState, action)
-    console.log(result[0])
     expect(result[0].colour).toBe("blue");
+
+    const action2 = { type: 'todos/colourSelected', payload: {todoId: 1, colour: 'blue' }}
+    const result2 = todosReducer(initialState, action2)
+    expect(result2[1].colour).toBe("blue");
+  })
+
+  test('Delete all completed tasks', () => {
+    const initialState = [{ id: 0, text: 'Test text', completed: true },
+                        { id: 1, text: 'Test text', completed: false },
+                        { id: 2, text: 'Test text', completed: true },]
+  
+    const action = { type: 'todos/completedCleared'}
+    const result = todosReducer(initialState, action)
+    expect(result.state.length).toBe(1);
   })

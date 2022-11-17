@@ -50,7 +50,7 @@ export default function todosReducer(state = initialState, action) {
                         return {
                             // We've found the todo that has to change. Return a copy:
                             ...todo,
-                            colour,
+                            colour: colour,
                             // This updates colours - 
                             //not sure how will have to see implementation
         
@@ -72,11 +72,11 @@ export default function todosReducer(state = initialState, action) {
             }
         }
         case 'todos/completedCleared':{
-            return state.maps(todo =>{
-                if (todo.completed !== true){
-                    return todo
-                } 
-            })
+            return{
+                state: state.filter(
+                    (todo) => todo.completed === false
+                ),
+            }
         }
         default:
             return state

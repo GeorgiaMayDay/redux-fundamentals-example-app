@@ -24,7 +24,7 @@ export default function todosReducer(state = initialState, action) {
                     }
                     return{
                         ...state,
-                        colours: state.colours.push(colour),
+                        colours: colours.concat([colour]),
                         
                     }
                 case 'removed':
