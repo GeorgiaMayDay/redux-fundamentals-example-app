@@ -1,6 +1,7 @@
 import {createStore, applyMiddleware} from 'redux'
 import rootReducer from './rootReducer'
-import { print1, print2, print3 } from './exampleAddons/middleware'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import { loggerMiddleware } from './exampleAddons/middleware'
 
 let preloadedState
 const persistedTodosString = localStorage.getItem('todos')
@@ -11,10 +12,23 @@ if (persistedTodosString){
     }
 }
 
-//Apply middleware combines the middlesware into a middleware
-//store enhancer
-const middlewareEnhancer = applyMiddleware(print1, print2, print3)
+preloadedState = {
+    todos: [
+    { id: 0, text: 'Learn React', completed: true },
+    { id: 1, text: 'Learn Redux', completed: false, color: 'purple' },
+    { id: 2, text: 'Build something fun!', completed: false, color: 'blue' }
+  ],
+  filters: {
+    status: 'Active',
+    colors: ['red', 'blue']
+  }
+}
+const composedEnhancer = composeWithDevTools(
+    //Apply middleware combines the middlesware into a middleware
+    //store enhancer
+    applyMiddleware(loggerMiddleware)
+)
 
-const store = createStore(rootReducer, preloadedState, middlewareEnhancer)
+const store = createStore(rootReducer, preloadedState, composedEnhancer)
 
 export default store

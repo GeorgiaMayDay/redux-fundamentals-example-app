@@ -4,6 +4,7 @@ import './index.css'
 import App from './App'
 import store from './store'
 import './api/server'
+import { Provider } from 'react-redux'
 
 //Returns initial state
 console.log('Initial state: ', store.getState())
@@ -26,7 +27,9 @@ store.dispatch({ type: 'todos/todoAdded', payload: 'Try creating a store' })
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 )
