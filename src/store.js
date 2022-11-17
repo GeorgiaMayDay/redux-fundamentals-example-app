@@ -12,17 +12,6 @@ if (persistedTodosString){
     }
 }
 
-preloadedState = {
-    todos: [
-    { id: 0, text: 'Learn React', completed: true },
-    { id: 1, text: 'Learn Redux', completed: false, colour: 'purple' },
-    { id: 2, text: 'Build something fun!', completed: false, colour: 'blue' }
-  ],
-  filters: {
-    status: 'Active',
-    colours: ['red', 'blue']
-  }
-}
 const composedEnhancer = composeWithDevTools(
     //Apply middleware combines the middlesware into a middleware
     //store enhancer
