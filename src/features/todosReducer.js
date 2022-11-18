@@ -1,3 +1,5 @@
+import { client } from "../api/client"
+
 const initialState = [
     // { id: 0, test: "Learn React", completed: true },
     // { id: 1, test: "Learn Redux", completed: false, colour: 'purple' },
@@ -75,4 +77,9 @@ export default function todosReducer(state = initialState, action) {
         default:
             return state
     }
+}
+
+export async function fetchTodos(dispatch, getState){
+    const response = await client.get('/fakeApi/todos')
+    dispatch({type:'todos/todosLoaed', payload: response.todos})
 }

@@ -4,26 +4,20 @@ import './index.css'
 import App from './App'
 import store from './store'
 import './api/server'
+import {client} from './api/client'
 import { Provider } from 'react-redux'
+import { fetchTodos } from './features/todosReducer'
 
 //Returns initial state
 console.log('Initial state: ', store.getState())
 
-//Logs all the changes and keeps
-//the unsubscribe function returned by 
-//the subscribe function
-const unsubscribe = store.subscribe(() =>
-  console.log('State after dispatch: ', store.getState())
-)
-
 //Now lets dispatch/do some actions
 
 store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about actions'})
-
-// Stop listening to state updates
-unsubscribe()
-
 store.dispatch({ type: 'todos/todoAdded', payload: 'Try creating a store' })
+
+//Le gasp! We're dispatching a function, an async one at that
+store.dispatch(fetchTodos)
 
 ReactDOM.render(
   <React.StrictMode>

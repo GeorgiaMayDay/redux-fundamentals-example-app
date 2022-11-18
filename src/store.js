@@ -1,7 +1,8 @@
 import {createStore, applyMiddleware} from 'redux'
 import rootReducer from './rootReducer'
+import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { loggerMiddleware } from './exampleAddons/middleware'
+import { loggerMiddleware, asyncFunctionMiddleware } from './exampleAddons/middleware'
 
 let preloadedState
 const persistedTodosString = localStorage.getItem('todos')
@@ -12,10 +13,11 @@ if (persistedTodosString){
     }
 }
 
+
 const composedEnhancer = composeWithDevTools(
     //Apply middleware combines the middlesware into a middleware
     //store enhancer
-    applyMiddleware(loggerMiddleware)
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
 )
 
 const store = createStore(rootReducer, preloadedState, composedEnhancer)
