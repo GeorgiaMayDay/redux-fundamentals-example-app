@@ -41,5 +41,5 @@ test('Colour gets added to ids', () => {
   
     const action = { type: 'todos/completedCleared'}
     const result = todosReducer(initialState, action)
-    expect(result.state.length).toBe(1);
+    expect(result.length).toBe(1);
   })

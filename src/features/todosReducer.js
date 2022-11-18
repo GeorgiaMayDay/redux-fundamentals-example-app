@@ -1,4 +1,6 @@
 import { client } from "../api/client"
+import { createSelector } from "reselect"
+import { StatusFilters } from "./filtersReducer"
 
 const initialState = []
 
@@ -144,3 +146,37 @@ export function saveTodoText(text){
         dispatch(todoAdded(response.todo))
     }
 }
+
+// This is good if we're deriving additional data from the original values
+// As it limits the updates 
+export const selectTodoIds = createSelector(
+    //input selector
+    state => state.todos,
+    // output selector recives input results
+    // and returns final value
+    todos => todos.map(todo => todo.id)
+)
+
+export const completedTodos = createSelector(
+    //input selector
+    state => state.todos,
+    state => state.todos.status,
+    // Output Selector: recieves both values
+    (todos, status) =>{
+        if (status === StatusFilters.All){
+            return todos
+        }
+
+        const completedStatus = status ===StatusFilters.Completed
+        return todos.filter(todo => todo.completed === completedStatus)
+    
+    }
+)
+
+export const selectFilterTodoIds = createSelector(
+    //memoized selector as input
+    completedTodos,
+    // output selector recives input results
+    // and returns final value
+    filteredTodos => filteredTodos.map(todo => todo.id)
+)

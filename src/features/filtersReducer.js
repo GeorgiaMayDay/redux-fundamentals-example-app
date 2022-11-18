@@ -10,9 +10,9 @@ const initialState = {
     colours: []
 }
 
-export const statusChanged = newStatus => {
+export const statusChanged = (newStatus) => {
     return {
-      type: 'filter/statusFilterChanged',
+      type: 'filters/statusFilterChanged',
       payload: newStatus
     }
   }

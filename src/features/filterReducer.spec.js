@@ -1,4 +1,4 @@
-import filtersReducer from './filtersReducer';
+import filtersReducer, { statusChanged } from './filtersReducer';
 
 test('Change status', () => {
   const initialState = {
@@ -6,9 +6,10 @@ test('Change status', () => {
     colours: []
 }
 
-  const action = { type: 'filters/statusFilterChanged', payload: "Active" }
+  //const action = { type: 'filters/statusFilterChanged', payload: "active" }
+  const action = statusChanged("active")
   const result = filtersReducer(initialState, action)
-  expect(result.status).toBe("Active")
+  expect(result.status).toBe("active")
 })
 
 test('Change colour filter', () => {

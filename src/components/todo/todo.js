@@ -1,14 +1,15 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import TodoItem from './todoItems'
+import { selectFilterTodoIds, selectTodoIds } from '../../features/todosReducer'
 
-const selectTodosId = state => state.todos.map(
-    (todo) => todo.id
-)
+// const selectTodosId = state => state.todos.map(
+//     (todo) => todo.id
+// )
 
 function TodoList(){
 
-    const todoIds = useSelector(selectTodosId)
+    const todoIds = useSelector(selectFilterTodoIds)
     const dispatch = useDispatch();
 
     const renderList = todoIds.map(todoId => {
