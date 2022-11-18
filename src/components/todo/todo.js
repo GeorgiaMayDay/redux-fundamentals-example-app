@@ -2,15 +2,17 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import TodoItem from './todoItems'
 
-const selectTodos = state => state.todos
+const selectTodosId = state => state.todos.map(
+    (todo) => todo.id
+)
 
 function TodoList(){
 
-    const todos = useSelector(selectTodos)
+    const todoIds = useSelector(selectTodosId)
     const dispatch = useDispatch();
 
-    const renderList = todos.map(todo => {
-        return <TodoItem key={todo.id} todo={todo} />
+    const renderList = todoIds.map(todoId => {
+        return <TodoItem key={todoId} id={todoId} />
       })
 
     return(

@@ -1,18 +1,41 @@
-import React from 'react'
+import React from 'react';
 
-import { ReactComponent as TimesSolid } from './times-solid.svg'
+import { ReactComponent as TimesSolid } from './times-solid.svg';
 
-import { availablecolours, capitalize } from '../../features/colours'
+import { availablecolours, capitalize } from '../../features/colours';
+import { useSelector, useDispatch } from 'react-redux';
 
-const TodoListItem = ({ todo, oncolourChange, onCompletedChange, onDelete }) => {
-  const { text, completed, colour } = todo
+const selectTodoById = (state, todoId) => {
+  return state.todos.find(todo => todo.id === todoId)
+}
 
+
+const TodoListItem = ({ id}) => {
+  //Functional programming - we create a function that only has parameter
+  //state but that runs selectTodoById
+ const newTodo = useSelector(state =>selectTodoById(state, id))
+ const { text, completed, colour } = newTodo
+ const dispatch = useDispatch()
+
+
+  const onColourChange = (newColour) =>{
+    dispatch({ type: 'todos/colourSelected', payload: {todoId: id, colour: newColour}})
+  }
+
+  const onCompletedChange = (checked) =>{
+    dispatch({ type: 'todos/todoToggled', payload: id})
+  }
+
+  const onDelete = () =>{
+    dispatch({ type: 'todos/todoDeleted', payload: id} )
+    console.log(newTodo)
+  }
   const handleCompletedChanged = (e) => {
     onCompletedChange(e.target.checked)
   }
 
-  const handlecolourChanged = (e) => {
-    oncolourChange(e.target.value)
+  const handleColourChanged = (e) => {
+    onColourChange(e.target.value)
   }
 
   const colourOptions = availablecolours.map((c) => (
@@ -38,7 +61,7 @@ const TodoListItem = ({ todo, oncolourChange, onCompletedChange, onDelete }) => 
             className="colourPicker"
             value={colour}
             style={{ colour }}
-            onChange={handlecolourChanged}
+            onChange={handleColourChanged}
           >
             <option value=""></option>
             {colourOptions}

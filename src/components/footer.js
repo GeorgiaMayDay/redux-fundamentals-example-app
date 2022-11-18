@@ -110,15 +110,21 @@ const Footer = () => {
   }
 
   const onMarkAllComplete = (e) => {
-   // dispatch({ type: 'todos/allCompleted'})
+    dispatch({ type: 'todos/allCompleted'})
   }
+
+  const clearCompleted = (e) => {
+    dispatch({ type: 'todos/completedCleared'})
+  }
+
+  
 
   return (
     <footer className="footer">
       <div className="actions">
         <h5>Actions</h5>
         <button className="button" onClick={onMarkAllComplete}>Mark All Completed</button>
-        <button className="button">Clear Completed</button>
+        <button className="button" onClick={clearCompleted}>Clear Completed</button>
       </div>
 
       <RemainingTodos count={todosRemaining} />
