@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ReactComponent as TimesSolid } from './times-solid.svg';
-
+import {todosToggled, colourSelected, todoDeleted} from '../../features/todosReducer'
 import { availablecolours, capitalize } from '../../features/colours';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -19,15 +19,15 @@ const TodoListItem = ({ id}) => {
 
 
   const onColourChange = (newColour) =>{
-    dispatch({ type: 'todos/colourSelected', payload: {todoId: id, colour: newColour}})
+    dispatch(colourSelected(id, newColour))
   }
 
   const onCompletedChange = (checked) =>{
-    dispatch({ type: 'todos/todoToggled', payload: id})
+    dispatch(todosToggled(id))
   }
 
   const onDelete = () =>{
-    dispatch({ type: 'todos/todoDeleted', payload: id} )
+    dispatch(todoDeleted(id) )
     console.log(newTodo)
   }
   const handleCompletedChanged = (e) => {

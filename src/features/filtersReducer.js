@@ -10,6 +10,22 @@ const initialState = {
     colours: []
 }
 
+export const statusChanged = newStatus => {
+    return {
+      type: 'filter/statusFilterChanged',
+      payload: newStatus
+    }
+  }
+
+export const colourChanged = (newColour, newChangeType) => {
+    return {
+      type: 'filter/ColourFilterChanged',
+      payload: {colour: newColour, changeType: newChangeType}
+    }
+  }
+
+
+
 export default function todosReducer(state = initialState, action) {
     switch (action.type) {
         case 'filters/statusFilterChanged': {

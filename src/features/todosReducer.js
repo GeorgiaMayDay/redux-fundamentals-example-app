@@ -1,10 +1,53 @@
 import { client } from "../api/client"
 
-const initialState = [
-    // { id: 0, test: "Learn React", completed: true },
-    // { id: 1, test: "Learn Redux", completed: false, colour: 'purple' },
-    // { id: 2, test: "Build something fun!", completed: false, colour: 'blue' }
-]
+const initialState = []
+
+export const todoAdded = todo => {
+    return {
+      type: 'todos/todoAdded',
+      payload: todo
+    }
+  }
+
+export const todosLoaded = todos => {
+return {
+    type: 'todos/todosLoaded',
+    payload: todos
+}
+}
+
+export const todoDeleted = todoId => {
+    return {
+        type: 'todos/todoDeleted',
+        payload: todoId
+    }
+}
+
+export const todosToggled = todoId => {
+    return {
+        type: 'todos/todoToggled',
+        payload: todoId
+    }
+}
+
+export const colourSelected = (newTodoid, newColour) => {
+    return {
+        type: 'todos/colourSelected',
+        payload: { todoId: newTodoid, colour: newColour }
+    }
+}
+
+export const allCompleted = () => {
+    return {
+        type: 'todos/allCompleted'
+    }
+}
+
+export const completedCleared = () => {
+    return {
+        type: 'todos/completedCleared'
+    }
+}
 
 function updateCurrentId(todos) {
     const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1)
@@ -88,7 +131,7 @@ export async function fetchTodos(dispatch, getState){
 
     const stateBefore = getState()
     console.log('Todos before loaded in: ', stateBefore.todos.length)
-    dispatch({type:'todos/todosLoaded', payload: response.todos})
+    dispatch(todosLoaded(response.todos))
 
     const stateAfter = getState()
     console.log('Todos after loaded in: ', stateAfter.todos.length)
@@ -98,6 +141,6 @@ export function saveTodoText(text){
     return async function saveTodo(dispatch, getState){
         const newTodo = {text}
         const response = await client.post('/fakeApi/todos', {todo: newTodo})
-        dispatch({ type: 'todos/todoAdded', payload: response.todo })
+        dispatch(todoAdded(response.todo))
     }
 }
