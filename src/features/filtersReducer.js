@@ -6,7 +6,7 @@ export const StatusFilters = {
 
 //This is a slice - a mini reducer
 const initialState = {
-    status: 'All',
+    status: 'all',
     colours: []
 }
 

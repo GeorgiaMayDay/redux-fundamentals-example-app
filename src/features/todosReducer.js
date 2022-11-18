@@ -147,8 +147,8 @@ export function saveTodoText(text){
     }
 }
 
-// This is good if we're deriving additional data from the original values
-// As it limits the updates 
+//This checks if any of the input selectors return something different
+//If they don't,it just returns the same value skipping the expensive map/sort
 export const selectTodoIds = createSelector(
     //input selector
     state => state.todos,
@@ -160,19 +160,20 @@ export const selectTodoIds = createSelector(
 export const completedTodos = createSelector(
     //input selector
     state => state.todos,
-    state => state.todos.status,
+    state => state.filters.status,
     // Output Selector: recieves both values
     (todos, status) =>{
         if (status === StatusFilters.All){
             return todos
         }
+        console.log(status)
+        console.log(StatusFilters.All)
 
-        const completedStatus = status ===StatusFilters.Completed
+        const completedStatus = status === StatusFilters.Completed
         return todos.filter(todo => todo.completed === completedStatus)
     
     }
 )
-
 export const selectFilterTodoIds = createSelector(
     //memoized selector as input
     completedTodos,
