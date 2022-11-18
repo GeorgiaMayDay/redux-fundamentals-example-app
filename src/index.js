@@ -11,13 +11,12 @@ import { fetchTodos } from './features/todosReducer'
 //Returns initial state
 console.log('Initial state: ', store.getState())
 
+//Le gasp! We're dispatching a function, an async one at that
+store.dispatch(fetchTodos)
 //Now lets dispatch/do some actions
-
 store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about actions'})
 store.dispatch({ type: 'todos/todoAdded', payload: 'Try creating a store' })
 
-//Le gasp! We're dispatching a function, an async one at that
-store.dispatch(fetchTodos)
 
 ReactDOM.render(
   <React.StrictMode>

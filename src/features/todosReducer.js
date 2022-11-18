@@ -17,12 +17,16 @@ export default function todosReducer(state = initialState, action) {
             return [
                 //Create copy of the state that can be changed
                 ...state,
-                {
-                    id: updateCurrentId(state),
-                    text: action.payload,
-                    completed: false
-                }
+                action.payload
+                // {
+                //     id: updateCurrentId(state),
+                //     text: action.payload,
+                //     completed: false
+                // }
             ]
+        }
+        case 'todos/todosLoaded': {
+            return action.payload
         }
         case 'todos/todoToggled': {
             //iterate through the todos and edit the one with
@@ -81,5 +85,19 @@ export default function todosReducer(state = initialState, action) {
 
 export async function fetchTodos(dispatch, getState){
     const response = await client.get('/fakeApi/todos')
-    dispatch({type:'todos/todosLoaed', payload: response.todos})
+
+    const stateBefore = getState()
+    console.log('Todos before loaded in: ', stateBefore.todos.length)
+    dispatch({type:'todos/todosLoaded', payload: response.todos})
+
+    const stateAfter = getState()
+    console.log('Todos after loaded in: ', stateAfter.todos.length)
+}
+
+export function saveTodoText(text){
+    return async function saveTodo(dispatch, getState){
+        const newTodo = {text}
+        const response = await client.post('/fakeApi/todos', {todo: newTodo})
+        dispatch({ type: 'todos/todoAdded', payload: response.todo })
+    }
 }
