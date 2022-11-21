@@ -171,7 +171,7 @@ export const colourTodos = createSelector(
     }
 )
 
-export const selectFilterTodoIds = createSelector(
+export const selectFilteredTodoIds = createSelector(
     //memoized selector as input
     selectfilteredTodos,
     // output selector recives input results
