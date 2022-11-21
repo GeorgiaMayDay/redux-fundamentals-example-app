@@ -52,11 +52,6 @@ export const completedCleared = () => {
     }
 }
 
-function updateCurrentId(todos) {
-    const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1)
-    return maxId + 1
-}
-
 const todosReducer = createSlice ({
     name: 'todos',
     initialState,
@@ -145,7 +140,7 @@ export const selectfilteredTodos = createSelector(
     (todos, filters) =>{
         const {status, colours} = filters
         const showAllCompletions = status === StatusFilters.All
-        if (showAllCompletions && colours.length ==0){
+        if (showAllCompletions && colours.length == 0){
             return todos
         }
 

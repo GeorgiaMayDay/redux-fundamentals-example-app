@@ -13,7 +13,7 @@ function Header(){
 
     const handleKeyDown = e =>{
         const trimmedText = e.target.value.trim()
-        if (e.key == 'Enter' && trimmedText){
+        if (e.key === 'Enter' && trimmedText){
             dispatch(saveTodoText(trimmedText))
             setText('')
         }
