@@ -2,7 +2,6 @@ import { client } from "../api/client"
 import { createSelector } from "reselect"
 import { StatusFilters } from "./filtersReducer"
 import { createSlice } from '@reduxjs/toolkit'
-import { toBeInvalid } from "@testing-library/jest-dom"
 
 const initialState = []
 
@@ -88,6 +87,8 @@ const todosReducer = createSlice ({
         },
         todoDeleted(state, action){
             return state.filter((todo) => todo.id !== action.payload)
+            //TODO How does this work? And how to get state entities working
+            //delete state[action.payload]
         },
         allCompleted(state, action){
             return state.map(todo =>{

@@ -1,4 +1,4 @@
-import todosReducer from './todosReducer';
+import todosReducer, {todoDeleted} from './todosReducer';
 
 test('Toggles a todo based on id', () => {
   const initialState = [{ id: 0, text: 'Test text', completed: false }]
@@ -42,4 +42,15 @@ test('Colour gets added to ids', () => {
     const action = { type: 'todos/completedCleared'}
     const result = todosReducer(initialState, action)
     expect(result.length).toBe(1);
+  })
+
+  test('Delete one tasks', () => {
+    const initialState = [{ id: 0, text: 'Test text', completed: true },
+                        { id: 1, text: 'Test text', completed: false },
+                        { id: 2, text: 'Test text', completed: true },]
+  
+    const action = todoDeleted(1);
+    console.log(action)
+    const result = todosReducer(initialState, action)
+    expect(result.length).toBe(2);
   })

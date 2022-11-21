@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 export const StatusFilters = {
     All: 'all',
     Active: 'active',
@@ -68,3 +70,5 @@ const filtersReducer = createSlice ({
         }
     }
 })
+
+export default filtersReducer.reducer
