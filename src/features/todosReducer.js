@@ -1,6 +1,8 @@
 import { client } from "../api/client"
 import { createSelector } from "reselect"
 import { StatusFilters } from "./filtersReducer"
+import { createSlice } from '@reduxjs/toolkit'
+import { toBeInvalid } from "@testing-library/jest-dom"
 
 const initialState = []
 
@@ -27,7 +29,7 @@ export const todoDeleted = todoId => {
 
 export const todosToggled = todoId => {
     return {
-        type: 'todos/todoToggled',
+        type: 'todos/todosToggled',
         payload: todoId
     }
 }
@@ -56,77 +58,56 @@ function updateCurrentId(todos) {
     return maxId + 1
 }
 
-export default function todosReducer(state = initialState, action) {
-    switch (action.type) {
-        case 'todos/todoAdded': {
-            return [
-                //Create copy of the state that can be changed
+const todosReducer = createSlice ({
+    name: 'todos',
+    initialState,
+    reducers:{
+        todoAdded(state, action){
+            //mutating code is okay here becase createSlice is magic
+            state.push(action.payload)
+        },
+        todosToggled(state, action){
+            //Mutation!!
+            const todo = state.find(todo => todo.id === action.payload)
+            todo.completed = !todo.completed
+            console.log(todo.completed)
+        },
+        todosLoading(state, action){
+            return{
                 ...state,
-                action.payload
-                // {
-                //     id: updateCurrentId(state),
-                //     text: action.payload,
-                //     completed: false
-                // }
-            ]
-        }
-        case 'todos/todosLoaded': {
+                status: 'loading'
+            }
+        },
+        todosLoaded(state, action){
             return action.payload
-        }
-        case 'todos/todoToggled': {
-            //iterate through the todos and edit the one with
-            //matching id
-            return state.map(todo =>{
-                        if (todo.id !== action.payload){
-                            ///... not needed as there is no edit
-                            return todo
-                        } 
-                        return {
-                            // We've found the todo that has to change. Return a copy:
-                            ...todo,
-                            // But we change one thing
-                            completed: !todo.completed
-                        }
-                    })
-                }
-        case 'todos/colourSelected': {
+        },
+        colourSelected(state, action){
             let { todoId, colour } = action.payload
-            //iterate through the todos and edit the one with
-            //matching id
-            return state.map(todo =>{
-                        if (todo.id !== todoId){
-                            ///... not needed as there is no edit
-                            return todo
-                        } 
-                        return {
-                            // We've found the todo that has to change. Return a copy:
-                            ...todo,
-                            colour: colour,
-                            // This updates colours - 
-                            //not sure how will have to see implementation
-        
-                        }
-                    })
-                }
-        case 'todos/todoDeleted':{
+            const todo = state.find(todo => todo.id === todoId)
+            todo.colour = colour;
+        },
+        todoDeleted(state, action){
             return state.filter((todo) => todo.id !== action.payload)
-        }
-        case 'todos/allCompleted':{
+        },
+        allCompleted(state, action){
+            return {
+                ...state,
+                completed: true
+            }
+        },
+        completedCleared(state, action){
             return state.map(todo =>{
-                    return{
-                        ...todo,
-                        completed: true
-                    }
-                })
-            }
-        case 'todos/completedCleared':{
-            return state.filter(
-                    (todo) => todo.completed === false)
-            }
-        default:
+                return{
+                    ...todo,
+                    completed: true
+                }
+            })
+        },
+        default(state, action){
             return state
+        }
     }
-}
+});
 
 export async function fetchTodos(dispatch, getState){
     const response = await client.get('/fakeApi/todos')
@@ -203,3 +184,7 @@ export const selectFilterTodoIds = createSelector(
     // and returns final value
     filteredTodos => filteredTodos.map(todo => todo.id)
 )
+
+//export const { todoAdded, todosToggled, todosLoading } = todosReducer.actions
+
+export default todosReducer.reducer
