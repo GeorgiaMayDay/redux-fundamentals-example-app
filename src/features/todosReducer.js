@@ -165,7 +165,7 @@ export const selectfilteredTodos = createSelector(
     (todos, filters) =>{
         const {status, colours} = filters
         const showAllCompletions = status === StatusFilters.All
-        if (showAllCompletions && colours.length){
+        if (showAllCompletions && colours.length ==0){
             return todos
         }
 

@@ -1,25 +1,17 @@
-import {createStore, applyMiddleware} from 'redux'
-import rootReducer from './rootReducer'
-import thunkMiddleware from 'redux-thunk'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import { loggerMiddleware, asyncFunctionMiddleware } from './exampleAddons/middleware'
+import todosReducer from './features/todosReducer'
+import filtersReducer from './features/filtersReducer'
+import { configureStore} from '@reduxjs/toolkit'
 
-let preloadedState
-const persistedTodosString = localStorage.getItem('todos')
-
-if (persistedTodosString){
-    preloadedState = {
-        todos: JSON.parse(persistedTodosString)
+//Configure sets up the root reducer
+//Adds thunk
+//Adds logging 
+//Sets up Redux DevTools
+const store = configureStore({
+    reducer:{
+        todos: todosReducer,
+    //This combines them with less repeated code
+        filters: filtersReducer
     }
-}
-
-
-const composedEnhancer = composeWithDevTools(
-    //Apply middleware combines the middlesware into a middleware
-    //store enhancer
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
-)
-
-const store = createStore(rootReducer, preloadedState, composedEnhancer)
+})
 
 export default store
