@@ -157,26 +157,48 @@ export const selectTodoIds = createSelector(
     todos => todos.map(todo => todo.id)
 )
 
-export const completedTodos = createSelector(
+export const selectfilteredTodos = createSelector(
     //input selector
     state => state.todos,
-    state => state.filters.status,
+    state => state.filters,
     // Output Selector: recieves both values
-    (todos, status) =>{
-        if (status === StatusFilters.All){
+    (todos, filters) =>{
+        const {status, colours} = filters
+        const showAllCompletions = status === StatusFilters.All
+        if (showAllCompletions && colours.length){
             return todos
         }
-        console.log(status)
-        console.log(StatusFilters.All)
 
         const completedStatus = status === StatusFilters.Completed
-        return todos.filter(todo => todo.completed === completedStatus)
+
+        return todos.filter(todo => {
+            const statusMatches =
+        showAllCompletions || todo.completed === completedStatus
+      const colourMatches = colours.length === 0 || colours.includes(todo.colour)
+      return statusMatches && colourMatches
+        })
     
     }
 )
+
+export const colourTodos = createSelector(
+    //input selector
+    state => state.todos,
+    state => state.filters.colours,
+    // Output Selector: recieves both values
+    (todos, colours) =>{
+        if (colours === []){
+            return todos
+        }
+
+        return todos.filter(todo => colours.includes(todo.colour))
+    
+    }
+)
+
 export const selectFilterTodoIds = createSelector(
     //memoized selector as input
-    completedTodos,
+    selectfilteredTodos,
     // output selector recives input results
     // and returns final value
     filteredTodos => filteredTodos.map(todo => todo.id)

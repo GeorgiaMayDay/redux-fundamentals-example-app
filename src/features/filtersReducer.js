@@ -19,7 +19,7 @@ export const statusChanged = (newStatus) => {
 
 export const colourChanged = (newColour, newChangeType) => {
     return {
-      type: 'filter/ColourFilterChanged',
+      type: 'filters/ColourFilterChanged',
       payload: {colour: newColour, changeType: newChangeType}
     }
   }
