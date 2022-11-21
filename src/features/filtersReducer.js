@@ -26,15 +26,17 @@ export const colourChanged = (newColour, newChangeType) => {
 
 
 
-export default function todosReducer(state = initialState, action) {
-    switch (action.type) {
-        case 'filters/statusFilterChanged': {
+const filtersReducer = createSlice ({
+    name: 'filters',
+    initialState,
+    reducers:{
+        statusFilterChanged(state, action){
             return {
                     ...state,
                     status: action.payload
                 }
-        }
-        case 'filters/ColourFilterChanged':{
+        },
+        ColourFilterChanged(state, action){
             let {colour, changeType } = action.payload
             const { colours } = state
 
@@ -59,9 +61,10 @@ export default function todosReducer(state = initialState, action) {
                             ),
                         }
                     }
-            }
-        }
-        default:
+                }
+            },
+        default(state, action){
             return state
+        }
     }
-}
+})

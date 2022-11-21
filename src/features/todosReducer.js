@@ -90,18 +90,16 @@ const todosReducer = createSlice ({
             return state.filter((todo) => todo.id !== action.payload)
         },
         allCompleted(state, action){
-            return {
-                ...state,
-                completed: true
-            }
-        },
-        completedCleared(state, action){
             return state.map(todo =>{
-                return{
+            return{
                     ...todo,
                     completed: true
                 }
             })
+        },
+        completedCleared(state, action){
+            return state.filter(
+                (todo) => todo.completed === false)
         },
         default(state, action){
             return state

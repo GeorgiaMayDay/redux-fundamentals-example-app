@@ -3,7 +3,7 @@ import todosReducer from './todosReducer';
 test('Toggles a todo based on id', () => {
   const initialState = [{ id: 0, text: 'Test text', completed: false }]
 
-  const action = { type: 'todos/todoToggled', payload: 0 }
+  const action = { type: 'todos/todosToggled', payload: 0 }
   const result = todosReducer(initialState, action)
   expect(result[0].completed).toBe(true)
 })
